@@ -19,7 +19,7 @@ Choose one of the following methods:
    cd ComfyUI/custom_nodes/
 4. Clone the repository:
     ```bash
-   git clone [https://github.com/znortr/ComfyUI-Zn-Nodes.git](https://github.com/znortr/ComfyUI-Zn-Nodes.git)
+   git clone https://github.com/znortr/ZN_ComfyUI_Nodes.git
 5. Restart ComfyUI.
 
 ### Method 2: Manual Download (Full Suite)
