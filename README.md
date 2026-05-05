@@ -37,7 +37,11 @@ If you only want to install specific nodes from this suite:
    * **Presets:** It is highly recommended to keep all `.json` files within this folder to ensure everything works correctly.
 4. **Edit __init__.py:** Open the file and **comment out** (add a `#` at the start of the line) or delete the references to the nodes you did not download to prevent startup errors.
 5. Restart ComfyUI
-
+---
+## 💡 Tips:
+* **JSON Configs:** The nodes will automatically create/read configuration files in the `presets/` folder. Do not delete this folder!
+* **UI Updates:** If you don't see the new UI features (like the resolution buttons), clear your browser cache and refresh the page.
+* **Requirements:** These nodes use standard ComfyUI libraries. No additional `pip install` is required.
 ---
 ---
 <a name="the-essential-suite"></a>
@@ -50,7 +54,3 @@ If you only want to install specific nodes from this suite:
 [**Zn Lora Helper**](#zn-lora-helper)<br>acts as an automated, high-compatibility bridge for the LoRA management. It allows to leverage the organizational power of the **LoraManager (Lora Stacker)** while routing the actual data through standard or specialized loaders (like Nunchaku or official ComfyUI loaders).
 
 
-## 💡 Tips:
-* **JSON Configs:** The nodes will automatically create/read configuration files in the `presets/` folder. Do not delete this folder!
-* **UI Updates:** If you don't see the new UI features (like the resolution buttons), clear your browser cache and refresh the page.
-* **Requirements:** These nodes use standard ComfyUI libraries. No additional `pip install` is required.
