@@ -39,6 +39,16 @@ If you only want to install specific nodes from this suite:
 5. Restart ComfyUI
 
 ---
+---
+<a name="the-essential-suite"></a>
+## 🚀 The Essentials Suite
+---
+
+### 🎨 Prompt & LoRA Handling
+
+[**Zn Adv Prompt**](#zn-adv-prompt)<br>is a dynamic prompt engineering engine designed to automate the creation of complex descriptions. It optimizes syntax for generative models by transforming simple ideas into high-quality, structured instructions.<br><br>
+[**Zn Lora Helper**](#zn-lora-helper)<br>acts as an automated, high-compatibility bridge for the LoRA management. It allows to leverage the organizational power of the **LoraManager (Lora Stacker)** while routing the actual data through standard or specialized loaders (like Nunchaku or official ComfyUI loaders).
+
 
 ## 💡 Tips:
 * **JSON Configs:** The nodes will automatically create/read configuration files in the `presets/` folder. Do not delete this folder!
