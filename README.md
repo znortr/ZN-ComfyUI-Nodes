@@ -29,7 +29,7 @@ A collection of essential, lightweight nodes designed for efficiency and streaml
   Consider it a living toolbox rather than a finished product.
 
 ---
-## 🛠️ Installation
+## 🛠️ How To Install
 ---
 
 Choose one of the following methods:
@@ -41,7 +41,7 @@ Choose one of the following methods:
    cd ComfyUI/custom_nodes/
 4. Clone the repository:
     ```bash
-   git clone [https://github.com/znortr/ZN_ComfyUI_Nodes.git](https://github.com/znortr/ZN-ComfyUI-Nodes.git)
+   git clone https://github.com/znortr/ZN-ComfyUI-Nodes.git
 5. Restart ComfyUI.
 
 ### Method 2: Manual Download (Full Suite)
