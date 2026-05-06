@@ -52,7 +52,7 @@ Choose one of the following methods:
 
 ### Method 3: Selective Manual Installation (Individual Nodes)
 If you only want to install specific nodes from this suite:
-1. Create a folder named `ComfyUI-Zn-Nodes` in your `custom_nodes/` directory.
+1. Create a folder named `ZN_ComfyUI_Nodes` in your `custom_nodes/` directory.
 2. Download the `__init__.py` and only the specific `.py` files of the nodes you wish to use.
 3. Download the `web` and `presets` folders:
    * **Web files:** Each `.js` file has the same name as its corresponding `.py` node; you can easily pick only the ones you need.
