@@ -28,7 +28,7 @@ A collection of essential, lightweight nodes designed for efficiency and streaml
   Things may improve, change, or disappear entirely.  
   Consider it a living toolbox rather than a finished product.
 
-
+---
 ## 🛠️ Installation
 ---
 
