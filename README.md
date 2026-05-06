@@ -41,18 +41,18 @@ Choose one of the following methods:
    cd ComfyUI/custom_nodes/
 4. Clone the repository:
     ```bash
-   git clone https://github.com/znortr/ZN_ComfyUI_Nodes.git
+   git clone [https://github.com/znortr/ZN_ComfyUI_Nodes.git](https://github.com/znortr/ZN-ComfyUI-Nodes.git)
 5. Restart ComfyUI.
 
 ### Method 2: Manual Download (Full Suite)
 1. Download this repository as a **ZIP file** from the green **Code** button above.
 2. Extract the contents into `ComfyUI/custom_nodes/`.
-3. **Crucial:** Ensure the folder is named `ComfyUI-Zn-Nodes` and that the `__init__.py` file is located directly inside it (not in a double subfolder).
+3. **Crucial:** Ensure the folder is named `ZN-ComfyUI-Nodes` and that the `__init__.py` file is located directly inside it (not in a double subfolder).
 4. Restart ComfyUI.
 
 ### Method 3: Selective Manual Installation (Individual Nodes)
 If you only want to install specific nodes from this suite:
-1. Create a folder named `ZN_ComfyUI_Nodes` in your `custom_nodes/` directory.
+1. Create a folder named `ZN-ComfyUI-Nodes` in your `custom_nodes/` directory.
 2. Download the `__init__.py` and only the specific `.py` files of the nodes you wish to use.
 3. Download the `web` and `presets` folders:
    * **Web files:** Each `.js` file has the same name as its corresponding `.py` node; you can easily pick only the ones you need.
