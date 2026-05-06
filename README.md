@@ -2,10 +2,32 @@
 A collection of essential, lightweight nodes designed for efficiency and streamlined workflows
 
 ## 📜 Disclaimer & Philosophy
-**Please read before using:**
-* **Not a Coder:** I am not a professional developer. I created these nodes primarily for my personal use to solve specific problems in my own workflows.
-* **As-Is:** I'm sharing them because I think they might be useful to others, but I offer **no guarantees, no formal support, and no assistance.** Use them at your own risk.
-* **Why these nodes?** I was tired of installing massive node suites just to use a single node. This repository follows a "less is more" philosophy: it contains only the essentials I actually use, keeping the workflow clean and avoiding unnecessary bloat.
+
+**Before diving in, a few things worth knowing:**
+
+* **Not a Coder (officially):**  
+  I’m not a professional developer — these nodes were created to solve very specific needs in my own workflows.  
+  They work beautifully *for me*, which is usually a good sign… but not a contractual guarantee.
+
+* **As‑Is:**  
+  I created these nodes for myself, and I’m sharing them because I believe they can be useful to others as well.  
+  Everything here is provided *as it is*.  
+  I don’t promise support, fixes, or feature requests — but if something is genuinely broken and I notice it, there’s a good chance I’ll fix it.  
+  Just don’t treat this place like a customer service desk.
+
+* **Why these nodes?**  
+  Because I was tired of installing gigantic, bloated node suites just to use one single useful node.  
+  This repo follows a simple philosophy: **clean, essential, zero bloat**.
+
+* **Modular by Design:**  
+  Every node is intentionally built as a **standalone module**.  
+  Install only what you need — no forced bundles, no dependency jungles, no “all-or-nothing” packages.
+
+* **Work in Progress:**  
+  This repository evolves whenever I refine my own workflows.  
+  Things may improve, change, or disappear entirely.  
+  Consider it a living toolbox rather than a finished product.
+
 
 ## 🛠️ Installation
 ---
