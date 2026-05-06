@@ -1,0 +1,344 @@
+{
+  "settings": {
+    "weights": {
+      "lora_tags": 1.25,
+      "user_prompt": 1.15,
+      "base_quality": 1.15,
+      "style_stack": 1.10,
+      "lens_preset": 1.08,
+      "framing_fix": 1.12,
+      "pfn": 1.05,
+      "anti_artifacts": 0.95
+    },
+
+    "nl": {
+      "default_connector": "with",
+      "default_mode": "merge"
+    }
+
+  },
+    "pfn": {
+        "nl": { "connector": "emphasizing", "mode": "suffix" }
+    },
+    
+    "base_quality": {
+        "nl": { "connector": "with", "mode": "merge" },
+        "positive": [ "high quality", "masterpiece", "ultra detailed", "high resolution", "8k", "sharp focus", "intricate details" ],
+        "negative": [ "low quality", "worst quality", "low resolution", "blurry", "artifacts", "jpeg artifacts", "grainy" ]
+    },
+    "style_stacks": {
+        "disable": {},
+        "realistic": {
+            "nl": { "connector": "rendered with", "mode": "suffix" },
+            "lens": ["50mm standard lens, natural perspective"],
+            "lighting": ["soft natural lighting", "global illumination", "realistic bounce light"],
+            "color": ["neutral calibrated color grading", "balanced contrast"],
+            "extra": ["high fidelity textures", "physically accurate materials", "micro-detail realism"],
+            "negative": ["cartoon style", "anime style", "cel shading", "flat shading", "simplified shapes"],
+            "neg_to_pos": ["photorealistic style", "realistic rendering", "3D depth", "complex textures", "intricate geometric details"]
+        },
+
+        "cinematic": {
+            "nl": { "connector": "styled with", "mode": "suffix" },   
+            "lens":[ "35mm anamorphic lens, shallow depth of field, cinematic framing"],
+            "lighting": ["cinematic lighting", "volumetric shadows", "rim light", "controlled highlights"],
+            "color": ["filmic color grading", "teal-orange balance", "soft contrast rolloff"],
+            "extra": ["cinematic composition", "dramatic atmosphere", "filmic texture"],
+            "negative": ["cartoon style", "anime style", "illustration style", "oversaturated colors"],
+            "neg_to_pos": ["live action film style", "photorealistic rendering", "cinematic realism", "balanced color saturation"]
+        },
+
+        "anime": {
+            "nl": { "connector": "in", "mode": "prefix" },
+            "lens": [],
+            "lighting": ["soft ambient anime lighting", "clean shadows"],
+            "color": ["vibrant anime palette", "smooth gradients", "clean color separation"],
+            "extra": ["clean lineart", "cel shading", "expressive stylization"],
+            "negative": ["photorealistic skin pores", "hyperrealistic texture", "gritty detail"],
+            "neg_to_pos": ["smooth stylized skin", "clean anime surfaces", "soft artistic textures", "idealized aesthetic"]
+        },
+
+        "photographic": {
+            "nl": { "connector": "captured with", "mode": "suffix" },
+            "lens": ["85mm portrait lens, shallow depth of field"],
+            "lighting": ["studio lighting", "soft shadows", "controlled highlights"],
+            "color": ["accurate photographic color science", "natural skin tones"],
+            "extra": ["ultra sharp details", "realistic skin texture", "high fidelity rendering"],
+            "negative": ["cartoon style", "anime style", "painterly shading", "stylized anatomy"],
+            "neg_to_pos": ["photorealistic style", "real life capture", "natural lighting gradients", "anatomically correct proportions"]
+        },
+
+        "portrait": {
+            "nl": { "connector": "framed as", "mode": "prefix" },
+            "lens": ["85mm portrait lens, creamy bokeh"],
+            "lighting": ["beauty lighting", "soft diffused light", "flattering shadows"],
+            "color": ["natural skin tones", "subtle color grading", "smooth tonal transitions"],
+            "extra": ["studio portrait rendering", "detailed skin", "refined facial structure"],
+            "negative": ["cartoon face", "anime face", "exaggerated proportions", "stylized features"],
+            "neg_to_pos": ["human face realism", "realistic facial features", "natural proportions", "lifelike anatomy"]
+        },
+
+        "landscape": {
+            "nl": { "connector": "captured in", "mode": "prefix" },
+            "lens": ["24mm wide angle lens, environmental perspective"],
+            "lighting": ["natural outdoor lighting", "atmospheric depth", "soft haze"],
+            "color": ["balanced landscape palette", "natural saturation", "realistic greens"],
+            "extra": ["high detail environment", "realistic foliage", "depth layering"],
+            "negative": ["cartoon background", "simplified scenery", "flat shading"],
+            "neg_to_pos": ["realistic environment", "complex natural scenery", "high dynamic range depth", "3D volumetric lighting"]
+        },
+
+        "hyperdetail": {
+            "nl": { "connector": "enhanced with", "mode": "suffix" },
+            "lens":[ "50mm macro-capable lens"],
+            "lighting": ["high dynamic range lighting", "crisp highlights"],
+            "color": ["neutral high-fidelity color grading", "micro-contrast enhancement"],
+            "extra": ["extreme micro-details", "ultra sharp textures", "high frequency detail"],
+            "negative": ["cartoon style", "simplified shading", "low detail surfaces"],
+            "neg_to_pos": ["photorealistic style", "complex light interaction", "hyper-textured surfaces", "micro-detail resolution"]
+        },
+
+        "illustration": {
+            "nl": { "connector": "drawn in", "mode": "prefix" },
+            "lens": [],
+            "lighting": ["soft illustration lighting", "gentle shading"],
+            "color": ["artistic color palette", "controlled saturation"],
+            "extra": ["clean strokes", "stylized shading", "artistic rendering"],
+            "negative": ["photorealistic skin pores", "hyperrealistic texture", "gritty detail"],
+            "neg_to_pos": ["smooth artistic skin", "clean digital surfaces", "soft painterly textures", "stylized aesthetic"]
+        },
+
+        "digital_art": {
+            "nl": { "connector": "created with", "mode": "suffix" },
+            "lens": [],
+            "lighting": ["dramatic digital lighting", "stylized highlights"],
+            "color": ["high contrast vivid colors", "digital palette"],
+            "extra": ["stylized rendering", "smooth gradients", "digital brushwork"],
+            "negative": ["photorealistic texture", "natural lighting", "realistic skin pores"],
+            "neg_to_pos": ["stylized digital texture", "artistic lighting", "smooth stylized skin"]
+        },
+
+        "fashion": {
+            "nl": { "connector": "styled as", "mode": "suffix" },
+            "lens": ["85mm portrait lens"],
+            "lighting": ["editorial lighting", "glossy highlights", "controlled reflections"],
+            "color": ["fashion-grade color science", "premium tones"],
+            "extra": ["premium fabrics", "editorial styling", "high-end detail"],
+            "negative": ["cartoon style", "anime style", "exaggerated proportions"],
+            "neg_to_pos": ["photorealistic style", "high-end realism", "natural proportions"]
+        },
+
+        "sci_fi": {
+            "nl": { "connector": "set in", "mode": "prefix" },
+            "lens": ["35mm lens"],
+            "lighting": ["neon lighting", "holographic reflections", "emissive accents"],
+            "color": ["futuristic palette", "cool tones", "neon highlights"],
+            "extra": ["advanced materials", "glowing elements", "sci-fi atmosphere"],
+            "negative": ["medieval fantasy", "rustic style", "natural lighting"],
+            "neg_to_pos": ["futuristic technology", "sleek high-tech surfaces", "synthetic lighting"]
+        },
+
+        "fantasy": {
+            "nl": { "connector": "set in", "mode": "prefix" },
+            "lens": ["35mm lens"],
+            "lighting": ["magical lighting", "volumetric rays", "enchanted glow"],
+            "color": ["vibrant fantasy palette", "rich tones"],
+            "extra": ["mythic atmosphere", "enchanted environment", "ethereal details"],
+            "negative": ["cyberpunk", "neon sci-fi", "holographic reflections"],
+            "neg_to_pos": ["organic medieval fantasy", "magical glow", "mythic aesthetic"]
+        },
+
+        "horror": {
+            "nl": { "connector": "set in", "mode": "prefix" },
+            "lens": ["35mm gritty lens, slight distortion"],
+            "lighting": ["low-key lighting", "harsh shadows", "eerie contrast", "rim lighting"],
+            "color": ["desaturated palette", "cold tones", "sickly greens", "blood accents"],
+            "extra": ["fog", "grain texture", "unsettling atmosphere", "organic detail"],
+            "negative": ["bright cartoon colors", "cute expressions", "clean shading", "perfect surfaces"],
+            "neg_to_pos": ["dark gritty realism", "distressed textures", "fog depth", "unsettling design"]
+        },
+
+        "architecture": {
+            "nl": { "connector": "rendered with", "mode": "suffix" },
+            "lens": ["24mm wide angle lens, perspective-correct"],
+            "lighting": ["clean architectural lighting", "soft shadows"],
+            "color": ["neutral palette", "calibrated whites"],
+            "extra": ["accurate perspective", "realistic materials", "clean lines"],
+            "negative": ["cartoon perspective", "exaggerated proportions", "distortion"],
+            "neg_to_pos": ["realistic perspective", "true scale", "perfect rectilinear lines"]
+        },
+
+        "macro": {
+            "nl": { "connector": "rendered with", "mode": "suffix" },
+            "lens": ["macro lens, extreme close-up"],
+            "lighting": ["soft diffused lighting", "controlled highlights"],
+            "color": ["natural palette", "realistic tones"],
+            "extra": ["fine textures", "micro-detail", "shallow depth of field"],
+            "negative": ["cartoon texture", "simplified detail", "flat shading"],
+            "neg_to_pos": ["hyperrealistic texture", "organic detail", "depth", "material shading"]
+        },
+
+        "product_shot": {
+            "nl": { "connector": "styled as", "mode": "suffix" },
+            "lens": ["50mm product lens"],
+            "lighting": ["studio lighting", "controlled reflections", "softbox highlights"],
+            "color": ["clean commercial grading", "neutral tones"],
+            "extra": ["glossy surfaces", "commercial quality", "precise edges"],
+            "negative": ["cartoon style", "painterly style", "stylized shading"],
+            "neg_to_pos": ["photorealistic product", "commercial photography", "studio shading", "sharp edges"]
+        },
+
+        "cartoon": {
+            "nl": { "connector": "drawn in", "mode": "prefix" },
+            "lens": [],
+            "lighting": ["flat lighting", "soft shadows", "clean readability"],
+            "color": ["bright colors", "flat shading", "limited gradients"],
+            "extra": ["thick outlines", "simplified shapes", "clean 2D surfaces"],
+            "negative": ["photorealistic textures", "complex shading", "micro-detail"],
+            "neg_to_pos": ["clean cartoon clarity", "bold outlines", "smooth surfaces", "2D stylization"]
+        },
+
+        "cartoon_pixar": {
+            "nl": { "connector": "rendered in", "mode": "suffix" },
+            "lens": ["50mm, cinematic 3D perspective"],
+            "lighting": ["subsurface scattering", "octane render lighting", "soft global illumination"],
+            "color": ["vibrant studio colors", "high dynamic range"],
+            "extra": ["3D digital render", "Pixar aesthetic", "detailed textures"],
+            "negative": ["2d", "flat shading", "lineart", "sketch"],
+            "neg_to_pos": ["3D depth", "volumetric shading", "realistic 3D materials"]
+        },
+
+        "cartoon_ghibli": {
+            "nl": { "connector": "painted in", "mode": "prefix" },
+            "lens": [],
+            "lighting": ["soft daylight", "natural painterly light"],
+            "color": ["watercolor palette", "soft pastel tones"],
+            "extra": ["Studio Ghibli style", "hand-painted texture", "traditional media look"],
+            "negative": ["3d render", "cgi", "harsh shadows", "digital clinical look"],
+            "neg_to_pos": ["painterly aesthetic", "traditional animation style", "soft artistic textures"]
+        }
+    },
+
+    "auto_style_keywords": {
+        "realistic": [ "realistic","realistic style","realistic look", "photorealistic","photo realistic","photo-realistic","photoreal","photographic realism", "ultra realistic","hyper realistic","hyperrealistic","hyper-realistic", "true to life","lifelike","life-like","real life look","real world look", "natural rendering","naturalistic","natural style", "high fidelity","high realism","realistic lighting","realistic texture", "3d realistic","realistic render","realistic rendering", "complex textures","fine textures","real skin texture", "cinematic realism","real atmosphere" ],
+        "cinematic": [ "cinematic","cinema style","cinematic style","cinematic shot", "film still","movie frame","movie still","film frame", "cinematic lighting","dramatic lighting","film lighting", "cinematic color grading","movie color grading","teal and orange", "cinematic vibe","cinematic mood","movie scene","film-like", "cinematic composition","hollywood style","movie atmosphere", "cinematic scene","epic shot","dramatic composition" ],
+        "anime": [ "anime","anime style","anime look","anime scene", "manga","manga style","manga look","manga drawing", "cel shading","cel-shaded","cel-shaded anime", "japanese anime","japanese animation", "anime character","manga character", "anime illustration","anime artwork","anime aesthetic", "anime inspired","anime digital art","anime portrait", "chibi","moe anime","shonen style","shojo style", "clean anime shading","anime face","kawaii style", "otaku style","anime vibes" ],
+        "photographic": [ "photographic","photography","professional photography", "dslr photo","dslr shot","professional photo", "studio photography","studio lighting","studio shot", "high resolution photo","high-res photo","hi-res photo","high res", "photo capture","photo realistic","photoreal capture", "photographic lighting","photographic texture", "real life photography","realistic photo", "cinematic photography","camera shot","lens photo" ],
+        "portrait": [ "portrait","portrait photo","portrait photography", "portrait shot","portrait style","beauty portrait", "studio portrait","professional portrait", "close-up portrait","closeup portrait","close up face", "headshot","studio headshot","professional headshot", "face portrait","bust shot","shoulder-up shot", "portrait lighting","beauty shot","model portrait" ],
+        "landscape": [ "landscape","landscape photography","nature landscape", "nature scenery","natural scenery","outdoor landscape", "environment landscape","environmental scenery", "wide shot landscape","panoramic landscape","panoramic view", "scenic view","vista","nature vista", "landscape scene","mountain landscape","forest landscape", "outdoor scenery","nature photo","wide environment" ],
+        "hyperdetail": [ "hyperdetail","hyper detailed","ultra detailed","extreme detail", "micro detail","micro detailed","micro textures", "fine detail","fine texture","high fidelity detail", "high frequency detail","micro-detail","macro detail", "ultra fine detail","extreme texture","intricate detail", "super detailed","overdetailed" ],
+        "illustration": [ "illustration","illustration style","illustration artwork", "lineart","line art","clean lineart","digital lineart", "digital sketch","sketch art","hand-drawn","hand drawn", "artistic illustration","stylized illustration","concept illustration", "pen and ink","ink drawing","pencil drawing","drawing style", "storyboard style","comic illustration" ],
+        "digital_art": [ "digital art","digital_art","digital painting", "digital artwork","digital creative","digital design", "stylized digital art","digital rendering","digital illustration", "digital shading","vivid digital colors", "digital aesthetic","concept art","concept digital art", "digital brushwork","digital style","2d digital art" ],
+        "fashion": [ "fashion","fashion shot","fashion photography", "fashion editorial","editorial shot","editorial fashion", "runway","runway photography","fashion runway", "fashion portrait","fashion model","model photo", "high fashion","high-end fashion","premium fashion", "fashion lighting","editorial style","magazine style", "stylish look","fashion aesthetic","couture shot" ],
+        "sci_fi": [ "sci fi","sci-fi","scifi","sci_fi", "science fiction","sci-fi scene","sci-fi environment", "futuristic","futuristic scene","futuristic world", "futuristic environment","futuristic city","high-tech", "cyberpunk","cyberpunk environment","cyberpunk scene", "cyber punk","cybperunk","cynerpunk", "neon sci-fi","neon lighting","neon future", "sci-fi aesthetic","sci-fi style","sci-fi setting", "techno future","dystopian","hi-tech sci-fi", "cyber aesthetic","cyber world","post-apocalyptic", "space sci-fi","alien world" ],
+        "fantasy": [ "fantasy","fantasy artwork","fantasy illustration", "fantasy environment","fantasy world","fantasy scene", "mythical","mythical scene","mythical world", "magical","magical scene","magical world", "enchanted","enchanted scene","enchanted world", "epic fantasy","dark fantasy","high fantasy", "fantasy aesthetic","fantasy concept","mythological", "sword and sorcery" ],
+        "horror": [ "horror","horror style","horror scene","dark horror", "creepy","creepy vibe","eerie","eerie atmosphere", "spooky","scary","terrifying","nightmarish","nightmare", "macabre","disturbing","gory","gore","blood","bloody", "haunted","haunting","haunted house","haunted scene", "ghost","ghostly","spectral","apparition","spirit", "evil","demonic","demon","hellish","infernal","satanic", "supernatural","paranormal","cursed","cursed object", "possession","possessed","ritual","occult","occult style", "dark aesthetic","dark theme","shadowy","shadow figure", "creepypasta","unknown horror","horror vibes","psychological horror", "body horror","monster horror","monster","creature","mutant", "zombie","undead","undead scene","rotting","decay", "eldritch","lovecraftian","cosmic horror", "fearful","ominous","threatening","sinister", "slasher","killer","serial killer","gothic horror","gothic" ],
+        "architecture": [ "architecture","architectural","architectural photography", "building photo","building exterior","building structure", "archviz","arch viz","architectural visualization", "modern architecture","realistic architecture", "architectural perspective","building perspective", "architectural shot","building design","urban architecture", "cityscape","urban scene","interior architecture","interior design" ],
+        "macro": [ "macro","macro photography","macro shot", "macro capture","macro style","macro aesthetic", "macro lens","extreme close-up","close-up macro", "micro detail","micro close-up","tiny detail", "macro texture","detail shot","super closeup","macro image" ],
+        "product_shot": [ "product shot","product_shot","product photography", "commercial product photo","commercial shot", "studio product shot","studio product lighting", "product showcase","product display","product image", "product render","clean product photo", "high-end product shot","catalog shot","ecommerce photo", "product look","packshot","commercial studio" ],
+        "cartoon": [ "cartoon","cartoon style","cartoon look","clean cartoon", "simple cartoon","flat cartoon","flat colors","flat shading", "2d cartoon","2d style","2d animation","2d drawing", "toon","toon style","cell shading","cel shading","cel cartoon", "comic style","comic cartoon","comic look", "saturday morning cartoon","tv cartoon","kids cartoon","childlike drawing", "bold lines","thick outlines","outline style", "simple shapes","simplified style","minimal cartoon", "retro cartoon","old cartoon", "cartoony","goofy cartoon","funny cartoon", "bright colors cartoon","colorful cartoon","soft cartoon", "cartoon character","cartoon face","cartoon figure", "cartoon aesthetic","cartoon illustration","cartoon artwork" ],
+        "cartoon_pixar": [ "pixar","pixar style","pixel style pixar","cartoon pixar","pixar character", "pixar animation","pixar look","pixar vibes", "pixar shading","pixar inspired","pixar illustration", "3d cartoon","3d animation pixar","pixar visual", "pixar character design","toy story style","disney pixar" ],
+        "cartoon_disney": [ "disney","disney style","classic disney","cartoon disney", "disney character","disney animation","disney look", "disney inspired","disney illustration","disney aesthetic", "disney character design","old disney","disney vibes", "2d disney","disney cartoon" ],
+        "cartoon_dreamworks": [ "dreamworks","dreamworks style","cartoon dreamworks", "dreamworks character","dreamworks animation","dreamworks look", "dreamworks inspired","dreamworks illustration", "dreamworks aesthetic","dreamworks character design", "stylized dreamworks","dreamworks vibe" ],
+        "cartoon_ghibli": [ "ghibli","studio ghibli","ghibli style","ghibli look", "miyazaki","miyazaki style","ghibli aesthetic", "ghibli illustration","ghibli character","ghibli vibes", "ghibli watercolor","ghibli shading","ghibli inspired", "ghibli animation","ghibli scene","ghibli world" ]
+    },
+
+    "lens_presets": {
+        "nl": { "connector": "captured with", "mode": "suffix" },
+        "disable": [],
+        "wide_24mm": [ "24mm wide angle lens, environmental perspective" ],
+        "standard_50mm": [ "50mm standard lens, natural perspective" ],
+        "portrait_85mm": [ "85mm portrait lens, shallow depth of field" ],
+        "telephoto_200mm": [ "200mm telephoto lens, compression effect" ],
+        "macro": [ "macro lens, extreme close-up" ]
+    },
+
+    "anti_artifacts": {
+        "nl": { "connector": "refined with", "mode": "suffix" },
+        "low": [ "clean edges, natural details" ],
+        "medium": [ "clean edges, accurate anatomy, correct hands, clear text" ],
+        "high": [ "no distortion, perfect hands, clean edges, sharp focus" ],
+        "hands": [ "correct finger count, natural hand poses" ],
+        "face": [ "correct eyes, symmetry, natural skin texture" ],
+        "text": [ "clear readable text, accurate typography" ],
+        "anatomy": [ "correct anatomy, natural proportions" ],
+        "ultra": [ "perfect anatomy, perfect hands, sharp edges, ultra stable output" ]
+    },
+
+    "auto_negative": {
+        "low": [ "blurry", "artifacts" ],
+        "medium": [ "blurry", "distortion", "bad anatomy", "low quality" ],
+        "high": [ "distortion", "extra limbs", "unreadable text", "low quality" ],
+        "hands": [ "bad hands", "deformed fingers" ],
+        "face": [ "bad face", "distorted eyes" ],
+        "text": [ "unreadable text", "distorted text" ],
+        "anatomy": [ "bad anatomy", "extra limbs" ],
+        "ultra": [ "distortion", "bad anatomy", "unreadable text", "warped shapes" ]
+    },
+
+    "framing_fix": {
+        "nl": { "connector": "ensuring", "mode": "suffix" },
+        "positive": [ "full body visible, subject fully in frame, not cut off" ],
+        "negative": [ "cropped, cut off, partial body, missing limbs, truncated body, out of frame" ],
+        "neg_to_pos": [ "complete subject in frame, full body visible" ]
+    },
+
+    "conflicts":{
+        "anime":["realistic","photographic","cinematic","portrait"],
+        "realistic":["anime","cartoon_pixar","cartoon_disney","illustration"],
+        "cinematic":["anime","cartoon_pixar","cartoon_disney"],
+        "photographic":["anime","illustration","digital_art"],
+        "sci_fi":["fantasy"],
+        "fantasy":["sci_fi"],
+        "illustration":["photographic","realistic"],
+        "digital_art":["photographic","realistic"],
+        "cartoon_pixar":["realistic","photographic"],
+        "cartoon_disney":["realistic","photographic"],
+        "cartoon_dreamworks":["realistic","photographic"],
+        "cartoon_ghibli":["realistic","photographic"],
+        "architecture":["anime","cartoon_pixar","cartoon_disney"],
+        "horror": [ "cartoon_pixar","cartoon_disney","cartoon_dreamworks","cartoon_ghibli", "cartoon_netto","anime","fashion","product_shot","architecture" ],
+        "cartoon": [ "realistic","photographic","cinematic","portrait","hyperdetail", "architecture","fashion","product_shot","sci_fi","fantasy" ]
+    },
+
+    "positive_conflicts":{
+        "anime":["realistic","photographic","cinematic","portrait"],
+        "realistic":["anime","cartoon_pixar","cartoon_disney","illustration"],
+        "cinematic":["anime","cartoon_pixar","cartoon_disney"],
+        "photographic":["anime","illustration","digital_art"],
+        "sci_fi":["fantasy"],
+        "fantasy":["sci_fi"],
+        "illustration":["photographic","realistic"],
+        "digital_art":["photographic","realistic"],
+        "cartoon_pixar":["realistic","photographic"],
+        "cartoon_disney":["realistic","photographic"],
+        "cartoon_dreamworks":["realistic","photographic"],
+        "cartoon_ghibli":["realistic","photographic"],
+        "architecture":["anime","cartoon_pixar","cartoon_disney"],
+        "horror": [ "cartoon_pixar","cartoon_disney","cartoon_dreamworks", "cartoon_ghibli","cartoon_netto","anime","fashion", "product_shot","architecture" ],
+        "cartoon": [ "realistic","photographic","cinematic","portrait", "hyperdetail","architecture","fashion","product_shot", "sci_fi","fantasy" ]
+    },
+
+    "negative_conflicts": {
+        "anime":["photorealistic skin","photorealistic skin pores","realistic skin pores","hyperrealistic texture","hyper realistic skin","gritty detail","skin imperfections","realistic wrinkles","photo texture","real life skin detail"],
+        "realistic":["anime style","manga style","cel shading","flat shading","cartoon shading","simplified shapes","thick lineart","clean lineart","anime proportions","cartoon anatomy"],
+        "cinematic":["cartoon style","anime style","cel shading","flat shading","illustration shading","stylized shading","cartoon lighting"],
+        "photographic":["anime style","manga style","cartoon style","cel shading","painterly shading","illustration shading","stylized rendering"],
+        "portrait":["anime style","cartoon style","cel shading","illustration shading"],
+        "landscape":["anime style","cartoon style","cel shading","illustration shading"],
+        "illustration":["photorealistic skin","hyperrealistic texture","realistic skin pores","real life skin detail"],
+        "digital_art":["photorealistic skin","hyperrealistic texture","realistic skin pores"],
+        "fashion":["anime style","cartoon style","cel shading"],
+        "sci_fi":["cartoon style","anime style"],
+        "fantasy":["photorealistic skin pores","realistic skin pores"],
+        "horror": [ "clean lineart","thick lineart","flat shading","cel shading","smooth cartoon surfaces", "bright cartoon palette","soft anime skin","cute proportions", "exaggerated cartoon anatomy","perfect clean textures","pixar style","disney style" ],
+        "architecture":["cartoon style","anime style","cel shading"],
+        "macro":["cartoon style","anime style"],
+        "product_shot":["cartoon style","anime style"],
+        "cartoon": [ "photorealistic skin","realistic skin pores","hyperrealistic texture", "gritty detail","realistic wrinkles","complex material shading", "high frequency detail","realistic anatomy","detailed photo texture", "cinematic gritty lighting","organic distressed textures" ],
+        "cartoon_pixar":["photorealistic skin","hyperrealistic skin","realistic skin pores","photo texture"],
+        "cartoon_disney":["photorealistic skin","hyperrealistic skin","realistic skin pores","photo texture"],
+        "cartoon_dreamworks":["photorealistic skin","hyperrealistic skin","realistic skin pores","photo texture"],
+        "cartoon_ghibli":["photorealistic skin","hyperrealistic skin","realistic skin pores","photo texture"]
+    }
+}

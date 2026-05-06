@@ -1,0 +1,100 @@
+{
+  "Flux.1 (Dev/Schnell)": {
+    "latent_channels": 16,
+    "latent_mode": "constant",
+    "latent_value": 0.0609,
+    "latent_dtype": "float32",
+    "resolution_multiple": 8,
+    "latent_downscale": 8,
+    "default_resolution": {"width": 1024, "height": 1024},
+    "max_size": 8192,
+    "resolutions": [
+      {"id": "flux_1_1", "name": "🟩 1:1 (Square 1024x1024 - Gold Standard Flux)", "width": 1024, "height": 1024},
+      {"id": "flux_4_3", "name": "🟩 4:3 (Orizzontale 1152x896 - Massima coerenza spaziale)", "width": 1152, "height": 896},
+      {"id": "flux_3_2", "name": "🟩 3:2 (Orizzontale 1216x832 - Perfetto per Cinematic/Foto)", "width": 1216, "height": 832},
+      {"id": "flux_16_9","name": "🟩 16:9 (Wide 1344x768 - Cinematic nitido)", "width": 1344, "height": 768},
+      {"id": "flux_3_4", "name": "🟩 3:4 (Verticale 896x1152 - Ritratto professionale)", "width": 896, "height": 1152},
+      {"id": "flux_2_3", "name": "🟩 2:3 (Verticale 832x1216 - Poster HQ)", "width": 832, "height": 1216},
+      {"id": "flux_9_16","name": "🟩 9:16 (Verticale 768x1344 - Social High-Res)", "width": 768, "height": 1344},
+      {"id": "flux_2k",  "name": "🟥 2K (Orizzontale 1536x1024 - Limite VRAM per 3060/Nunchaku)", "width": 1536, "height": 1024}
+    ]
+  },
+  "Qwen-VL (General)": {
+    "latent_channels": 4,
+    "latent_mode": "constant",
+    "latent_value": 0.0,
+    "latent_dtype": "float32",
+    "resolution_multiple": 28,
+    "latent_downscale": 8,
+    "default_resolution": {"width": 1288, "height": 1288},
+    "max_size": 4096,
+    "resolutions": [
+      {"id": "qwen_1_1","name": "🟩 1:1 (Square 1288x1288 - Qualità Master, multiplo di 28)", "width": 1288, "height": 1288},
+      {"id": "qwen_4_3","name": "🟩 4:3 (Orizzontale 1344x1008 - Dettaglio fotografico elevato)", "width": 1344, "height": 1008},
+      {"id": "qwen_3_2","name": "🟩 3:2 (Orizzontale 1456x980 - Formato reflex professionale)", "width": 1456, "height": 980},
+      {"id": "qwen_16_9","name": "🟨 16:9 (Orizzontale 1568x896 - Cinematic stabile)", "width": 1568, "height": 896},
+      {"id": "qwen_3_4","name": "🟩 3:4 (Verticale 1008x1344 - Ritratto editoriale HD)", "width": 1008, "height": 1344},
+      {"id": "qwen_2_3","name": "🟩 2:3 (Verticale 980x1456 - Poster verticale HQ)", "width": 980, "height": 1456},
+      {"id": "qwen_9_16","name": "🟨 9:16 (Verticale 896x1568 - Social High-Fidelity)", "width": 896, "height": 1568},
+      {"id": "qwen_21_9","name": "🟥 21:9 (Ultrawide 1792x756 - Cinematic panoramico estremo)", "width": 1792, "height": 756}
+    ]
+  },
+  "Z-Image Turbo": {
+    "latent_channels": 4,
+    "latent_mode": "constant",
+    "latent_value": 0.0,
+    "latent_dtype": "float32",
+    "resolution_multiple": 8,
+    "latent_downscale": 8,
+    "default_resolution": {"width": 1024, "height": 1024},
+    "max_size": 2048,
+    "resolutions": [
+      {"id": "zturbo_1_1","name": "🟩 1:1 (Square 1024x1024 - Bilanciamento Perfetto)", "width": 1024, "height": 1024},
+      {"id": "zturbo_4_3","name": "🟩 4:3 (Orizzontale 1152x896 - Massima nitidezza Turbo)", "width": 1152, "height": 896},
+      {"id": "zturbo_3_2","name": "🟩 3:2 (Orizzontale 1216x832 - Formato fotografico ottimale)", "width": 1216, "height": 832},
+      {"id": "zturbo_16_9","name": "🟨 16:9 (Wide 1344x768 - Cinematic, leggero calo di dettaglio)", "width": 1344, "height": 768},
+      {"id": "zturbo_3_4","name": "🟩 3:4 (Verticale 896x1152 - Ritratto editoriale)", "width": 896, "height": 1152},
+      {"id": "zturbo_2_3","name": "🟩 2:3 (Verticale 832x1216 - Poster HQ)", "width": 832, "height": 1216},
+      {"id": "zturbo_9_16","name": "🟨 9:16 (Verticale 768x1344 - Social High-Res)", "width": 768, "height": 1344},
+      {"id": "zturbo_2k","name": "🟨 1:1 (Square 1280x1280 - Limite superiore coerenza Turbo)", "width": 1280, "height": 1280}
+    ]
+  },
+  "SDXL": {
+  "latent_channels": 4,
+  "latent_mode": "constant",
+  "latent_value": 0.0,
+  "latent_dtype": "float32",
+  "resolution_multiple": 8,
+  "latent_downscale": 8,
+  "default_resolution": {"width": 1024, "height": 1024},
+  "max_size": 2048,
+  "resolutions": [
+    {"id": "sdxl_1_1", "name": "🟩 1:1 (Square 1024x1024 - SDXL base standard)", "width": 1024, "height": 1024},
+    {"id": "sdxl_4_3", "name": "🟩 4:3 (Horizontal 1152x896 - Balanced composition)", "width": 1152, "height": 896},
+    {"id": "sdxl_3_2", "name": "🟩 3:2 (Horizontal 1216x832 - Photo standard SDXL)", "width": 1216, "height": 832},
+    {"id": "sdxl_16_9", "name": "🟩 16:9 (Horizontal 1344x768 - Cinematic wide)", "width": 1344, "height": 768},
+    {"id": "sdxl_3_4", "name": "🟩 3:4 (Vertical 896x1152 - Portrait balanced)", "width": 896, "height": 1152},
+    {"id": "sdxl_2_3", "name": "🟩 2:3 (Vertical 832x1216 - Portrait / poster)", "width": 832, "height": 1216},
+    {"id": "sdxl_9_16", "name": "🟩 9:16 (Vertical 768x1344 - Social format)", "width": 768, "height": 1344},
+    {"id": "sdxl_2k", "name": "🟨 2K (Horizontal 1536x1024 - High detail limit)", "width": 1536, "height": 1024}
+  ]
+},
+ "settings": {
+  "dtype_mapping": {
+      "float32": "torch.float32",
+      "float16": "torch.float16",
+      "bfloat16": "torch.bfloat16",
+      "float64": "torch.float64"
+    },
+    "rounding_modes": ["floor", "ceil", "nearest"],
+    "mp_map": {
+      "Preset": 0.0,
+      "1.0 MP": 1.0,
+      "2.0 MP": 2.0
+    },
+    "range_resolution": {"min": 64, "max": 8192},
+    "range_batch": {"min": 1, "max": 64},
+    "device_options": ["cuda", "default", "cpu"],
+    "max_pixels": 67108864
+  }
+}
