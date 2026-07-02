@@ -52,10 +52,106 @@ class ZN_ImagePreviewSaveAdv {
         const LEFT_MARGIN = 8;
         const RIGHT_MARGIN = 8;
 
-
         // --- PATCH PROTECTION ---
         if (node.__zn_patched) return;
         node.__zn_patched = true;
+
+        // --- MENU CONTESTUALE STANDARD COMFYUI ---
+        const origGetExtraMenuOptions = node.getExtraMenuOptions?.bind(node);
+        const inst = this; // riferimento per il closure
+
+        node.getExtraMenuOptions = function (_, options) {
+            const buildUrl = (info) => {
+                if (!info) return null;
+                const p = new URLSearchParams({
+                    filename: info.filename,
+                    subfolder: info.subfolder ?? "",
+                    type: info.type,
+                });
+                return `/view?${p}`;
+            };
+
+            const items = [];
+            const urlA = buildUrl(inst._infoA);
+            const urlB = buildUrl(inst._infoB);
+            if (urlA && inst.imgA) items.push({ label: "A", url: urlA });
+            if (urlB && inst.imgB) items.push({ label: "B", url: urlB });
+
+            if (items.length) {
+                options.push(null); // separatore
+
+                const addStandardItems = (opts, url, prefix = "") => {
+                    const pre = prefix ? `${prefix} ` : "";
+
+                    // Open Image
+                    opts.push({
+                        content: `${pre}Open Image`,
+                        callback: () => window.open(url, "_blank"),
+                    });
+
+                    // Save Image
+                    opts.push({
+                        content: `${pre}Save Image`,
+                        callback: async () => {
+                            try {
+                                const res = await fetch(url);
+                                const blob = await res.blob();
+                                const objUrl = URL.createObjectURL(blob);
+                                const a = document.createElement("a");
+                                a.href = objUrl;
+                                a.download = (url.match(/filename=([^&]+)/)?.[1] || "image.png");
+                                document.body.appendChild(a);
+                                a.click();
+                                setTimeout(() => {
+                                    document.body.removeChild(a);
+                                    URL.revokeObjectURL(objUrl);
+                                }, 0);
+                            } catch (e) {
+                                console.error(e);
+                                app.ui.dialog.show("Failed to save image");
+                            }
+                        },
+                    });
+
+                    // Copy Image
+                    opts.push({
+                        content: `${pre}Copy Image`,
+                        callback: async () => {
+                            try {
+                                const res = await fetch(url);
+                                const blob = await res.blob();
+                                if (!navigator.clipboard?.write || !window.ClipboardItem) {
+                                    throw new Error("Clipboard API not supported");
+                                }
+                                await navigator.clipboard.write([
+                                    new ClipboardItem({ [blob.type]: blob }),
+                                ]);
+                                app.ui.dialog.show("Image copied to clipboard");
+                            } catch (e) {
+                                console.error(e);
+                                app.ui.dialog.show("Failed to copy image: " + e.message);
+                            }
+                        },
+                    });
+                };
+
+                if (items.length === 1) {
+                    // Una sola immagine visibile → menu diretto (identico al PreviewImage standard)
+                    addStandardItems(options, items[0].url);
+                } else {
+                    // Due immagini → sottomenu "Image" con le voci per A e B
+                    const submenu = { options: [] };
+                    items.forEach((it) => addStandardItems(submenu.options, it.url, `Image ${it.label}`));
+                    options.push({
+                        content: "🖼 Image",
+                        has_submenu: true,
+                        submenu: submenu,
+                    });
+                }
+            }
+
+            return origGetExtraMenuOptions?.apply(this, arguments);
+        };
 
         // === ONMOUSEDOWN FIX - Controlla prima i bottoni ===
         const origMouseDown = node.onMouseDown?.bind(node);
@@ -87,22 +183,22 @@ class ZN_ImagePreviewSaveAdv {
         };
 
         const origMouseMove = node.onMouseMove?.bind(node);
-            node.onMouseMove = (e, pos, canvas) => {
-                const [x, y] = pos;
+        node.onMouseMove = (e, pos, canvas) => {
+            const [x, y] = pos;
 
-                // Auto-reset se il tasto sinistro è stato rilasciato fuori dal nodo
-                if (this.isDragging && e.buttons === 0) {
-                    this.isDragging = false;
-                }
+            // Auto-reset se il tasto sinistro è stato rilasciato fuori dal nodo
+            if (this.isDragging && e.buttons === 0) {
+                this.isDragging = false;
+            }
 
-                // Muove lo slider solo se il tasto sinistro è fisicamente premuto
-                if (this.isDragging && e.buttons === 1 && y <= node.size[1] - RESIZE_MARGIN) {
-                    this.updateSliderFromMouse(x);
-                    canvas.setDirty(true, true);
-                    return true;
-                }
-                return origMouseMove?.(e, pos, canvas);
-            };
+            // Muove lo slider solo se il tasto sinistro è fisicamente premuto
+            if (this.isDragging && e.buttons === 1 && y <= node.size[1] - RESIZE_MARGIN) {
+                this.updateSliderFromMouse(x);
+                canvas.setDirty(true, true);
+                return true;
+            }
+            return origMouseMove?.(e, pos, canvas);
+        };
 
         const origMouseUp = node.onMouseUp?.bind(node);
         node.onMouseUp = (e, pos, canvas) => {
@@ -173,15 +269,9 @@ class ZN_ImagePreviewSaveAdv {
             });
             const url = `/view?${params}`;
 
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-            const blob = await response.blob();
             const img = new Image();
-            const objUrl = URL.createObjectURL(blob);
-            img.src = objUrl;
+            img.src = url;               // URL server = permanente e valido per menu/link
             await img.decode();
-            URL.revokeObjectURL(objUrl);
             return img;
         } catch (err) {
             console.error("[zn_comparer] loadImage error:", err);
@@ -218,6 +308,12 @@ class ZN_ImagePreviewSaveAdv {
         } catch (err) {
             console.error("[zn_comparer] updateImages error:", err);
         }
+
+        // Esponi nel formato standard di ComfyUI
+        this.node.imgs = [];
+        if (this.imgA) this.node.imgs.push(this.imgA);
+        if (this.imgB) this.node.imgs.push(this.imgB);
+        this.node.imageIndex = 0;
 
         this.sliderX = 0.5;
         this.updateButtons();
@@ -343,7 +439,6 @@ class ZN_ImagePreviewSaveAdv {
 
         return true;
     }
-
 
     updateButtons() {
         if (!this.btnA || !this.btnB) return;
