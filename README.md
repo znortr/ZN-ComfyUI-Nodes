@@ -65,6 +65,15 @@ If you only want to install specific nodes from this suite:
 * **UI Updates:** If you don't see the new UI features (like the resolution buttons), clear your browser cache and refresh the page.
 * **Requirements:** These nodes use standard ComfyUI libraries. No additional `pip install` is required.
 ---
+
+---
+## 📝 Update History
+
+| Date | Node | Update |
+| :--- | :--- | :--- |
+| **2026-07-02** | **ZN Image Preview & Save ADV** | Added standard ComfyUI right-click context menu: **Open Image**, **Save Image**, **Copy Image**. Supports both Image A and Image B (submenu grouping when both are active). Fixed image loading to use permanent server URLs for full native compatibility. |
+
+
 ---
 <a name="the-essential-suite"></a>
 ## 🚀 The Essentials Suite
@@ -478,6 +487,7 @@ This node acts as a central **Intermediary Hub** for image and mask data managem
 | **Single-Image Preview** | Clean, unobstructed preview mode when only one image is connected, with dedicated save controls. |
 | **Dynamic Smart Naming** | Uses input slot labels to generate file names, sanitizing them (spaces → underscores, UPPERCASE). |
 | **Context-Aware UI** | Save buttons appear only when relevant slots are connected; visual feedback on successful save. |
+| **Native Context Menu** | Right-click any loaded image to **Open**, **Save**, or **Copy** to clipboard — identical to ComfyUI's built-in image nodes. |
 | **Integrated Export** | Saves high-quality PNGs into a dedicated subfolder (default: `zn_images`) with timestamp-based filenames. |
 
 ### Preview & Save ADV
