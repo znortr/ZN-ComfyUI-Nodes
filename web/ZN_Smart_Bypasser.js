@@ -274,55 +274,62 @@ app.registerExtension({
         // MASK CHECK
         // ─────────────────────────────────────────────
         const checkImageAlpha = (filename) =>
-            new Promise((resolve) => {
-                if (imageAlphaCache.has(filename)) {
-                    resolve(imageAlphaCache.get(filename));
-                    return;
-                }
-                
-                const lastSlash = filename.lastIndexOf("/");
-                const subfolder = lastSlash >= 0 ? filename.slice(0, lastSlash) : "";
-                const fname = lastSlash >= 0 ? filename.slice(lastSlash + 1) : filename;
+    new Promise((resolve) => {
+        if (imageAlphaCache.has(filename)) {
+            resolve(imageAlphaCache.get(filename));
+            return;
+        }
 
-                const url = `/view?filename=${encodeURIComponent(fname)}&subfolder=${encodeURIComponent(subfolder)}&type=input`;
+        // ── FIX: estrai il tipo dal suffix [temp] / [input] / [output] ──
+        const typeMatch = filename.match(/\s*\[(temp|input|output)\]\s*$/);
+        const type = typeMatch ? typeMatch[1] : "input";
 
-                const img = new Image();
-                img.onload = () => {
-                    try {
-                        const max = 512;
-                        const scale = Math.min(1, max / Math.max(img.width, img.height));
-                        const w = Math.max(1, (img.width * scale) | 0);
-                        const h = Math.max(1, (img.height * scale) | 0);
+        // Pulisci il filename dal suffix per la richiesta HTTP
+        const cleanFilename = filename.replace(/\s*\[(temp|input|output)\]\s*$/, "");
 
-                        sharedCanvas.width = w;
-                        sharedCanvas.height = h;
+        const lastSlash = cleanFilename.lastIndexOf("/");
+        const subfolder = lastSlash >= 0 ? cleanFilename.slice(0, lastSlash) : "";
+        const fname = lastSlash >= 0 ? cleanFilename.slice(lastSlash + 1) : cleanFilename;
 
-                        const ctx = sharedCanvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0, w, h);
+        const url = `/view?filename=${encodeURIComponent(fname)}&subfolder=${encodeURIComponent(subfolder)}&type=${type}`;
 
-                        const data = ctx.getImageData(0, 0, w, h).data;
-                        let hasAlpha = false;
-                        
-                        for (let i = 3; i < data.length; i += 4) {
-                            if (data[i] < 255) {
-                                hasAlpha = true;
-                                break;
-                            }
-                        }
+        const img = new Image();
+        img.onload = () => {
+            try {
+                const max = 512;
+                const scale = Math.min(1, max / Math.max(img.width, img.height));
+                const w = Math.max(1, (img.width * scale) | 0);
+                const h = Math.max(1, (img.height * scale) | 0);
 
-                        imageAlphaCache.set(filename, hasAlpha);
-                        resolve(hasAlpha);
-                    } catch {
-                        imageAlphaCache.set(filename, false);
-                        resolve(false);
+                sharedCanvas.width = w;
+                sharedCanvas.height = h;
+
+                const ctx = sharedCanvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, w, h);
+
+                const data = ctx.getImageData(0, 0, w, h).data;
+                let hasAlpha = false;
+
+                for (let i = 3; i < data.length; i += 4) {
+                    if (data[i] < 255) {
+                        hasAlpha = true;
+                        break;
                     }
-                };
-                img.onerror = () => {
-                    imageAlphaCache.set(filename, false);
-                    resolve(false);
-                };
-                img.src = url;
-            });
+                }
+
+                imageAlphaCache.set(filename, hasAlpha);
+                resolve(hasAlpha);
+            } catch {
+                imageAlphaCache.set(filename, false);
+                resolve(false);
+            }
+        };
+        img.onerror = () => {
+            imageAlphaCache.set(filename, false);
+            resolve(false);
+        };
+        img.src = url;
+    });
 
         // ─────────────────────────────────────────────
         // MASK TRIGGER
@@ -419,7 +426,7 @@ app.registerExtension({
             const origin = graph.getNodeById?.(link.origin_id);
             if (!origin) return;
 
-            const isImage = origin.type === "LoadImage" || origin.type === "zn_ImageMask_Bridge";
+            const isImage = origin.type === "LoadImage" || origin.type === "ZN_ImageMask_Bridge";
 
             if (isImage && link.origin_slot === 1) {
                 const widget = origin.widgets?.find(w => w.name === "image") || origin.widgets?.[0];
