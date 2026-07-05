@@ -137,7 +137,7 @@ class ZN_ImageMask_Bridge:
                 file_path, ui_item = _bridge_id_map[image]
                 mask = self._load_mask_from_file(file_path)
                 if mask is None:
-                    mask = torch.zeros((1, images.shape[1], images.shape[2]))
+                    mask = torch.zeros((64, 64), dtype=torch.float32, device="cpu").unsqueeze(0)
 
                 if mask.shape[-2] != images.shape[1] or mask.shape[-1] != images.shape[2]:
                     mask = torch.nn.functional.interpolate(
@@ -160,7 +160,7 @@ class ZN_ImageMask_Bridge:
             if os.path.isfile(file_path):
                 mask = self._load_mask_from_file(file_path)
                 if mask is None:
-                    mask = torch.zeros((1, images.shape[1], images.shape[2]))
+                    mask = torch.zeros((64, 64), dtype=torch.float32, device="cpu").unsqueeze(0)
 
                 return {
                     "ui": {
@@ -173,7 +173,7 @@ class ZN_ImageMask_Bridge:
                 need_refresh = True
 
         # --- Caso C: nuova immagine / refresh ---
-        mask = torch.zeros((1, images.shape[1], images.shape[2]))
+        mask = torch.zeros((64, 64), dtype=torch.float32, device="cpu").unsqueeze(0)
 
         res = nodes.PreviewImage().save_images(
             images,
