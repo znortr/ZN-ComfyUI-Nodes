@@ -35,6 +35,9 @@ class ZN_ImagePreviewSaveAdv {
         this._infoA = null;
         this._infoB = null;
 
+        // --- PER MENU CONTESTUALE INTELLIGENTE ---
+        this._lastMousePos = { x: 0, y: 0 };
+
         node.resizable = true;
         node.flags = node.flags || {};
         node.flags.allow_resize = true;
@@ -52,13 +55,14 @@ class ZN_ImagePreviewSaveAdv {
         const LEFT_MARGIN = 8;
         const RIGHT_MARGIN = 8;
 
+
         // --- PATCH PROTECTION ---
         if (node.__zn_patched) return;
         node.__zn_patched = true;
 
-        // --- MENU CONTESTUALE STANDARD COMFYUI ---
+        // --- MENU CONTESTUALE INTELLIGENTE ---
         const origGetExtraMenuOptions = node.getExtraMenuOptions?.bind(node);
-        const inst = this; // riferimento per il closure
+        const inst = this;
 
         node.getExtraMenuOptions = function (_, options) {
             const buildUrl = (info) => {
@@ -71,83 +75,98 @@ class ZN_ImagePreviewSaveAdv {
                 return `/view?${p}`;
             };
 
-            const items = [];
-            const urlA = buildUrl(inst._infoA);
-            const urlB = buildUrl(inst._infoB);
-            if (urlA && inst.imgA) items.push({ label: "A", url: urlA });
-            if (urlB && inst.imgB) items.push({ label: "B", url: urlB });
+            const showA = !!(inst.isInputActive("image_a") && inst.imgA);
+            const showB = !!(inst.isInputActive("image_b") && inst.imgB);
 
-            if (items.length) {
-                options.push(null); // separatore
+            let targetInfo = null;
+            let targetLabel = "";
 
-                const addStandardItems = (opts, url, prefix = "") => {
-                    const pre = prefix ? `${prefix} ` : "";
+            if (showA && showB) {
+                // Modalità comparazione: calcola se il mouse è a sinistra o destra dello slider
+                const node = inst.node;
+                const left = 8, right = 8, top = SLIDER_TOP;
+                const footerH = 18;
+                const bottom = 8 + footerH;
+                const drawW = node.size[0] - left - right;
+                const drawH = node.size[1] - top - bottom;
 
-                    // Open Image
-                    opts.push({
-                        content: `${pre}Open Image`,
-                        callback: () => window.open(url, "_blank"),
-                    });
+                const finalW = Math.max(inst.imgA.width, inst.imgB.width);
+                const finalH = Math.max(inst.imgA.height, inst.imgB.height);
+                const scale = Math.min(drawW / finalW, drawH / finalH);
+                const rw = finalW * scale;
+                const ox = left + (drawW - rw) * 0.5;
 
-                    // Save Image
-                    opts.push({
-                        content: `${pre}Save Image`,
-                        callback: async () => {
-                            try {
-                                const res = await fetch(url);
-                                const blob = await res.blob();
-                                const objUrl = URL.createObjectURL(blob);
-                                const a = document.createElement("a");
-                                a.href = objUrl;
-                                a.download = (url.match(/filename=([^&]+)/)?.[1] || "image.png");
-                                document.body.appendChild(a);
-                                a.click();
-                                setTimeout(() => {
-                                    document.body.removeChild(a);
-                                    URL.revokeObjectURL(objUrl);
-                                }, 0);
-                            } catch (e) {
-                                console.error(e);
-                                app.ui.dialog.show("Failed to save image");
-                            }
-                        },
-                    });
+                const mx = inst._lastMousePos.x;
+                const sliderPixelX = ox + rw * inst.sliderX;
 
-                    // Copy Image
-                    opts.push({
-                        content: `${pre}Copy Image`,
-                        callback: async () => {
-                            try {
-                                const res = await fetch(url);
-                                const blob = await res.blob();
-                                if (!navigator.clipboard?.write || !window.ClipboardItem) {
-                                    throw new Error("Clipboard API not supported");
-                                }
-                                await navigator.clipboard.write([
-                                    new ClipboardItem({ [blob.type]: blob }),
-                                ]);
-                                app.ui.dialog.show("Image copied to clipboard");
-                            } catch (e) {
-                                console.error(e);
-                                app.ui.dialog.show("Failed to copy image: " + e.message);
-                            }
-                        },
-                    });
-                };
-
-                if (items.length === 1) {
-                    // Una sola immagine visibile → menu diretto (identico al PreviewImage standard)
-                    addStandardItems(options, items[0].url);
+                if (mx < sliderPixelX) {
+                    targetInfo = inst._infoA;
+                    targetLabel = "Image A";
                 } else {
-                    // Due immagini → sottomenu "Image" con le voci per A e B
-                    const submenu = { options: [] };
-                    items.forEach((it) => addStandardItems(submenu.options, it.url, `Image ${it.label}`));
-                    options.push({
-                        content: "🖼 Image",
-                        has_submenu: true,
-                        submenu: submenu,
-                    });
+                    targetInfo = inst._infoB;
+                    targetLabel = "Image B";
                 }
+            } else if (showA) {
+                targetInfo = inst._infoA;
+                targetLabel = "Image";
+            } else if (showB) {
+                targetInfo = inst._infoB;
+                targetLabel = "Image";
+            }
+
+            const url = buildUrl(targetInfo);
+            if (url) {
+                options.push(null);
+
+                const pre = targetLabel ? `${targetLabel} ` : "";
+
+                options.push({
+                    content: `${pre}Open Image`,
+                    callback: () => window.open(url, "_blank"),
+                });
+
+                options.push({
+                    content: `${pre}Save Image`,
+                    callback: async () => {
+                        try {
+                            const res = await fetch(url);
+                            const blob = await res.blob();
+                            const objUrl = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = objUrl;
+                            a.download = (url.match(/filename=([^&]+)/)?.[1] || "image.png");
+                            document.body.appendChild(a);
+                            a.click();
+                            setTimeout(() => {
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(objUrl);
+                            }, 0);
+                        } catch (e) {
+                            console.error(e);
+                            app.ui.dialog.show("Failed to save image");
+                        }
+                    },
+                });
+
+                options.push({
+                    content: `${pre}Copy Image`,
+                    callback: async () => {
+                        try {
+                            const res = await fetch(url);
+                            const blob = await res.blob();
+                            if (!navigator.clipboard?.write || !window.ClipboardItem) {
+                                throw new Error("Clipboard API not supported");
+                            }
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ [blob.type]: blob }),
+                            ]);
+                            // app.ui.dialog.show("Image copied to clipboard");
+                        } catch (e) {
+                            console.error(e);
+                            app.ui.dialog.show("Failed to copy image: " + e.message);
+                        }
+                    },
+                });
             }
 
             return origGetExtraMenuOptions?.apply(this, arguments);
@@ -183,22 +202,26 @@ class ZN_ImagePreviewSaveAdv {
         };
 
         const origMouseMove = node.onMouseMove?.bind(node);
-        node.onMouseMove = (e, pos, canvas) => {
-            const [x, y] = pos;
+            node.onMouseMove = (e, pos, canvas) => {
+                const [x, y] = pos;
 
-            // Auto-reset se il tasto sinistro è stato rilasciato fuori dal nodo
-            if (this.isDragging && e.buttons === 0) {
-                this.isDragging = false;
-            }
+                // Cattura posizione mouse per menu contestuale
+                inst._lastMousePos.x = x;
+                inst._lastMousePos.y = y;
 
-            // Muove lo slider solo se il tasto sinistro è fisicamente premuto
-            if (this.isDragging && e.buttons === 1 && y <= node.size[1] - RESIZE_MARGIN) {
-                this.updateSliderFromMouse(x);
-                canvas.setDirty(true, true);
-                return true;
-            }
-            return origMouseMove?.(e, pos, canvas);
-        };
+                // Auto-reset se il tasto sinistro è stato rilasciato fuori dal nodo
+                if (this.isDragging && e.buttons === 0) {
+                    this.isDragging = false;
+                }
+
+                // Muove lo slider solo se il tasto sinistro è fisicamente premuto
+                if (this.isDragging && e.buttons === 1 && y <= node.size[1] - RESIZE_MARGIN) {
+                    this.updateSliderFromMouse(x);
+                    canvas.setDirty(true, true);
+                    return true;
+                }
+                return origMouseMove?.(e, pos, canvas);
+            };
 
         const origMouseUp = node.onMouseUp?.bind(node);
         node.onMouseUp = (e, pos, canvas) => {
@@ -269,9 +292,15 @@ class ZN_ImagePreviewSaveAdv {
             });
             const url = `/view?${params}`;
 
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const blob = await response.blob();
             const img = new Image();
-            img.src = url;               // URL server = permanente e valido per menu/link
+            const objUrl = URL.createObjectURL(blob);
+            img.src = objUrl;
             await img.decode();
+            URL.revokeObjectURL(objUrl);
             return img;
         } catch (err) {
             console.error("[zn_comparer] loadImage error:", err);
@@ -308,12 +337,6 @@ class ZN_ImagePreviewSaveAdv {
         } catch (err) {
             console.error("[zn_comparer] updateImages error:", err);
         }
-
-        // Esponi nel formato standard di ComfyUI
-        this.node.imgs = [];
-        if (this.imgA) this.node.imgs.push(this.imgA);
-        if (this.imgB) this.node.imgs.push(this.imgB);
-        this.node.imageIndex = 0;
 
         this.sliderX = 0.5;
         this.updateButtons();
@@ -439,6 +462,7 @@ class ZN_ImagePreviewSaveAdv {
 
         return true;
     }
+
 
     updateButtons() {
         if (!this.btnA || !this.btnB) return;
