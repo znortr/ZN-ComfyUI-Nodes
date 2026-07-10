@@ -343,6 +343,41 @@ class ZN_ImagePreviewSaveAdv {
         app.graph.setDirtyCanvas(true, true);
     }
 
+    _getPersistentPreviewData(data) {
+        const clean = (images) =>
+            Array.isArray(images)
+                ? images.map(({ filename, subfolder, type }) => ({
+                    filename,
+                    subfolder: subfolder ?? "",
+                    type,
+                }))
+                : [];
+
+        return {
+            a_images: clean(data?.a_images),
+            b_images: clean(data?.b_images),
+            folder_name: data?.folder_name ?? this.node.folder_name ?? "",
+        };
+    }
+
+    _savePreviewState(data) {
+        this.node.properties ??= {};
+        this.node.properties.zn_image_preview_save_adv =
+            this._getPersistentPreviewData(data);
+    }
+
+    async restorePreviewState() {
+        const data = this.node.properties?.zn_image_preview_save_adv;
+        if (!data?.a_images?.length && !data?.b_images?.length) return;
+
+        if (data.folder_name) {
+            this.node.folder_name = data.folder_name;
+        }
+
+        await this.updateImages(data);
+    }
+
+
     // Legge il valore corrente del toggle save_metadata dal widget del nodo
     _getSaveMetadata() {
         const w = this.node.widgets?.find(w => w.name === "save_metadata");
@@ -790,13 +825,23 @@ app.registerExtension({
         
 
         const orig = node.onExecuted?.bind(node);
+
+        // Ritorno a un workflow/tab: ricarica l'ultima preview nota.
+        queueMicrotask(() => {
+            void inst.restorePreviewState();
+        });
+
         node.onExecuted = (data) => {
             orig?.(data);
+
             if (data?.folder_name) {
                 node.folder_name = data.folder_name;
                 if (folderWidget) folderWidget.value = data.folder_name;
             }
-            inst.updateImages(data);
+
+            // Mantiene i riferimenti ai PNG, non le immagini in memoria.
+            inst._savePreviewState(data);
+            void inst.updateImages(data);
         };
     },
 });
