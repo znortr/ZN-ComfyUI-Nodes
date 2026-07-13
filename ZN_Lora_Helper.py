@@ -10,7 +10,7 @@ class ZN_Lora_Helper:
             "that allows for 'normal' LoRA management outside of the LoraManager environment, "
             "effectively preventing node conflicts while maintaining dynamic output control. "
             "Features include automatic trigger word normalization, dynamic output renaming (path + strength), "
-            "and UI exposure of active LoRA filenames."
+            "UI exposure of active LoRA filenames, and automatic bypass of empty LoRA slots."
         )
     
     NAME = "ZN Lora Helper"
@@ -23,13 +23,12 @@ class ZN_Lora_Helper:
             "required": {
                 "lora_stack": ("LORA_STACK",),
                 "trigger_words": ("STRING", {"forceInput": True}),
+                "auto_bypass": ("BOOLEAN", {"default": True, "label_on": "Enabled", "label_off": "Disabled"}),
             }
         }
 
-    # Otteniamo la lista ufficiale dei LoRA per la compatibilità dei tipi
     LORA_LIST = folder_paths.get_filename_list("loras")
 
-    # Uscite: 1 Trigger + (1 Path + 1 Strength) * 5 = 11 uscite totali
     RETURN_TYPES = ("STRING",) + (LORA_LIST, "FLOAT") * 5
     
     RETURN_NAMES = ("trigger_words",) + tuple(
@@ -38,8 +37,7 @@ class ZN_Lora_Helper:
     
     OUTPUT_NODE = True
 
-    def process(self, lora_stack, trigger_words):
-        # Normalizzazione trigger words (rimozione doppi spazi/virgole)
+    def process(self, lora_stack, trigger_words, auto_bypass=True):
         clean_tw = re.sub(r'[\s,]+', ', ', trigger_words).strip().strip(',')
 
         results = [clean_tw]
@@ -51,7 +49,6 @@ class ZN_Lora_Helper:
             if lora_stack and i < len(lora_stack):
                 path = lora_stack[i][0]
                 strength = float(lora_stack[i][1])
-                # Prendiamo solo il nome del file per il JS
                 names_to_ui.append(path.split('/')[-1].split('\\')[-1])
             else:
                 names_to_ui.append(None)
