@@ -72,7 +72,8 @@ If you only want to install specific nodes from this suite:
 | Date | Node | Update |
 | :--- | :--- | :--- |
 | **2026-07-02** | **ZN Image Preview & Save ADV** | Added standard ComfyUI right-click context menu: **Open Image**, **Save Image**, **Copy Image**. Supports both Image A and Image B (submenu grouping when both are active). Fixed image loading to use permanent server URLs for full native compatibility. |
-| **2026-07-10** | **ZN Image Preview & Save ADV** | Add methods for persistent image preview state management
+| **2026-07-10** | **ZN Image Preview & Save ADV** | Add methods for persistent image preview state management- |
+| **2026-07-13** | **ZN LoRA Helper** | Add automatic bypass of empty LoRA slots.|
 
 
 ---
