@@ -105,6 +105,9 @@ is an advanced multi-target automation node for ComfyUI that dynamically control
 [⧉ **ZN SeedVR2 Smart Controller**](#zn-seedvr2-smart-controller)<br>
 is a SeedVR2-dedicated controller that computes the target resolution from the input image and dynamically adjusts VAE tiling based on available VRAM. It enforces full-frame processing and does **not** perform upscaling.
 
+[⧉ **ZN Smart Flusher**](#zn-smart-flusher)<br>
+is an intelligent cache management node that flushes ComfyUI caches only when truly necessary. It automatically detects conditioning changes, keeping models loaded for maximum performance while remaining ideal for complex workflows, memory management, and resolving the recent Z-Image Nunchaku slowdown caused by prompt change detection.
+
 ### 🖼️ Image Tools
 
 [⧉ **ZN ImageMask Bridge**](#zn-imagemask-bridge)<br>
@@ -451,6 +454,71 @@ Stop calculating frame counts manually. This node handles the logic for you:
 
 ---
 ---
+
+<a name="zn-smart-flusher"></a>
+## 🧹 ⧉ ZN Smart Flusher
+
+**ZN Smart Flusher** is an intelligent cache management node that optimizes how ComfyUI handles model memory. Instead of blindly clearing caches every execution, it detects **real conditioning changes** and performs a cleanup only when required, keeping models resident in memory whenever possible to maximize performance.
+
+| Feature | Description |
+| :--- | :--- |
+| **Smart Conditioning Detection** | Generates a lightweight fingerprint of the conditioning to detect real prompt changes without relying on the raw prompt text. |
+| **Selective Cache Flush** | Clears the model cache only when necessary, avoiding unnecessary model reloads between identical executions. |
+| **Force Flush Mode** | Optionally performs a complete cache cleanup on every execution when deterministic behavior is preferred. |
+| **VRAM Safety Guard** | Can automatically trigger a cleanup when available GPU memory falls below a configurable threshold. |
+| **Node Cache Cleanup** | Optionally clears ComfyUI's execution cache together with the model cache, replicating the "Free model and node cache" behavior. |
+| **Transparent Pass-Through** | Forwards data and conditioning unchanged, allowing seamless integration into virtually any workflow. |
+
+### 🧠 Smart Cache Logic
+
+Traditional cache managers either **always flush** or **never flush**. Both approaches have drawbacks: unnecessary model reloads reduce performance, while never clearing the cache may cause memory issues in long-running workflows.
+
+**ZN Smart Flusher** continuously compares the current conditioning against the previous execution. Only when a genuine change is detected (or a manual/VRAM-triggered cleanup is requested) are the caches released, otherwise the loaded models remain available for immediate reuse.
+
+### 🚀 Why it matters
+
+This behavior makes the node useful in many different scenarios:
+
+- **Complex ComfyUI workflows** where unnecessary model reloads waste execution time.
+- **Long-running automation pipelines** that require controlled cache management.
+- **Memory-sensitive workflows** where VRAM usage must be monitored dynamically.
+- **Multi-model pipelines** where cache cleanup should happen only when actually required.
+- **Recent ComfyUI versions**, where it restores the expected performance of **Z-Image Nunchaku** by preventing unnecessary cache flushes when prompt change detection is enabled.
+
+### ⚙️ Flexible Cleanup Modes
+
+The node supports multiple cleanup strategies depending on your workflow:
+
+- **Smart Mode:** Flush only when conditioning changes.
+- **Force Flush:** Always perform a complete cleanup.
+- **VRAM Guard:** Trigger cleanup automatically when free VRAM becomes critically low.
+- **Aggressive Mode:** Optionally invoke `torch.cuda.empty_cache()` after the standard cleanup for maximum memory recovery.
+
+- ### 📥 Inputs & Outputs
+
+- **Inputs:**
+  - **force_flush:** Forces a complete cache cleanup on every execution, bypassing the smart detection logic.
+  - **use_vram_guard:** Enables automatic cleanup when available VRAM falls below the configured threshold.
+  - **vram_threshold_gb:** Minimum free VRAM (in GB) before the VRAM Guard triggers a cleanup.
+  - **clear_node_cache:** Also clears ComfyUI's node execution cache together with the model cache.
+  - **aggressive:** Executes `torch.cuda.empty_cache()` after the standard cleanup for maximum VRAM recovery.
+  - **data:** *(Optional)* Accepts any data type and passes it through unchanged.
+  - **positive_conditioning:** *(Optional)* Primary conditioning used for smart change detection and forwarded to the conditioning output.
+  - **negative_conditioning:** *(Optional)* Secondary conditioning used for change detection.
+
+- **Outputs:**
+  - **data:** The original input data, passed through unchanged.
+  - **conditioning:** Outputs the **positive conditioning** when connected; otherwise, it automatically falls back to the **negative conditioning**.
+  - **status:** A human-readable debug string describing why the cache was (or wasn't) flushed, including Smart Mode decisions, VRAM checks, and cleanup operations.
+
+> [!TIP]
+> **ZN Smart Flusher** is not limited to solving the recent Z-Image Nunchaku slowdown. It is designed as a general-purpose intelligent cache manager for ComfyUI, making it especially valuable in advanced workflows where balancing execution speed and memory management is essential.
+
+[↑ Top](#the-essential-suite)
+
+---
+---
+
 <a name="zn-imagemask-bridge"></a>
 ## 🖌️ ⧉ ZN ImageMask Bridge
 
